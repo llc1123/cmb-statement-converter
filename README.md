@@ -1,73 +1,43 @@
-# React + TypeScript + Vite
+# 招商银行信用卡账单转换工具 (CMB Statement Converter)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+这是一个纯前端运行的工具，用于将招商银行信用卡电子账单（PDF格式）解析并转换为 CSV 格式。所有数据处理均在本地浏览器完成，确保您的财务数据隐私安全。
 
-Currently, two official plugins are available:
+## 功能
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- **PDF 解析**: 直接从浏览器解析招商银行信用卡 PDF 账单。
+- **隐私安全**: 纯客户端运行，不上传任何文件到服务器。
+- **数据导出**:
+  - **CSV**: 支持 UTF-8 BOM 编码，防止 Excel 打开乱码。
+  - **列优化**: 自动移除无用列，按原文件顺序导出。
+  - **日期处理**: 自动根据账单日期补全交易年份（支持跨年账单）。
+- **界面友好**: 支持明亮/暗黑模式通过切换。
 
-## React Compiler
+## 使用方法
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+1. 访问工具页面。
+2. 将招商银行发送的 PDF 账单文件拖入上传区域。
+3. 预览解析出的交易列表。
+4. 点击 "导出 CSV" 按钮下载转换后的文件。
 
-## Expanding the ESLint configuration
+## 技术栈
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- **前端框架**: React + Vite
+- **UI 组件库**: BlueprintJS
+- **PDF 处理**: pdfjs-dist
+- **CSV 处理**: xlsx (SheetJS)
+- **开发工具**: TypeScript, Bun
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 本地开发
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+确保您已安装 [Bun](https://bun.sh/)。
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+```bash
+# 安装依赖
+bun install
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+# 启动开发服务器
+bun dev
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# 构建生产版本
+bun run build
 ```
